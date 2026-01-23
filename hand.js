@@ -10,17 +10,16 @@ main.create = function() {
 	this.tileSprites = [];
 	this.buttonSprites = [];
 	this.settings = {
-		tileWidth: 90,
-		tileY: 60,
-		buttonWidth: 200,
-		buttonY: 200,
-		meldPadding: 45,
+		tileWidth: 240,
+		tileY: 160,
+		buttonWidth: 600,
+		buttonY: 600,
+		meldPadding: 120,
 	}
 	this.consts = {
 		suits: ["m", "p", "s", "z"],
 		buttons: ["c", "p", "k", "t", "r", "R", "K"],
 	}
-	this.updateWidth = false;
 }.bind(main);
 
 main.getTile = function(index) {
@@ -90,7 +89,7 @@ main.update = function() {
 			
 			// Update variables
 			tileIndex++;
-			currentX += 90;
+			currentX += this.settings.tileWidth;
 		} else {
 			// Button
 
@@ -168,10 +167,8 @@ main.update = function() {
 		}
 	}
 
-	if (this.updateWidth) {
-		main.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
-		this.updateWidth = false;
-	}
+	main.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth * 4 / 3 || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
+	main.canvas.style.width = main.canvas.width / 4 + "px";
 
 	// Make unused sprites invisible
 	for (; tileIndex < this.tileSprites.length; tileIndex++) {
@@ -181,4 +178,6 @@ main.update = function() {
 	for (; buttonIndex < this.buttonSprites.length; buttonIndex++) {
 		this.buttonSprites[buttonIndex].alpha = 0;
 	}
+
+	this.upToDate = true;
 }
