@@ -20,6 +20,7 @@ main.create = function() {
 		suits: ["m", "p", "s", "z"],
 		buttons: ["c", "p", "k", "t", "r", "R", "K"],
 	}
+	this.updateWidth = false;
 }.bind(main);
 
 main.getTile = function(index) {
@@ -167,7 +168,10 @@ main.update = function() {
 		}
 	}
 
-	main.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
+	if (this.updateWidth) {
+		main.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
+		this.updateWidth = false;
+	}
 
 	// Make unused sprites invisible
 	for (; tileIndex < this.tileSprites.length; tileIndex++) {
