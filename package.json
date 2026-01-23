@@ -15,9 +15,14 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:frontend": "cd packages/react-frontend && npm run build",
+    "deploy": "npm run build:frontend && gh-pages -d packages/react-frontend/dist"
   },
   "workspaces": [
-	"packages/*"
-  ]
+    "packages/*"
+  ],
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
 }
