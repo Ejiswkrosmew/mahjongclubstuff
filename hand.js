@@ -11,9 +11,9 @@ main.create = function() {
 	this.buttonSprites = [];
 	this.settings = {
 		tileWidth: 90,
-		tileY: 30,
+		tileY: 60,
 		buttonWidth: 200,
-		buttonY: 170,
+		buttonY: 200,
 		meldPadding: 45,
 	}
 	this.consts = {
@@ -34,6 +34,7 @@ main.update = function() {
 	let i;
 	let turnTile = 0;
 	let doubleTile = 0;
+	let closedTile = 0;
 	let tileIndex = 0;
 	let buttonIndex = 0;
 	let currentX = 0;
@@ -54,6 +55,13 @@ main.update = function() {
 			tile.frame = this.consts.suits.indexOf(token[1]) * 10 + parseInt(token[0]);
 			tile.x = currentX;
 
+			// Check if tile should be closed
+			if (closedTile == 4 || closedTile == 1) {
+				tile.frame = 30;
+			}
+			// Update closed tile timer
+			closedTile--;
+
 			// Check for special tile positions due to calls
 			if (turnTile == 1) {
 				// Update currentX
@@ -72,7 +80,7 @@ main.update = function() {
 					tile2.degrees = 90;
 					tile2.frame = tile.frame;
 					tile2.x = tile.x;
-					tile2.y = tile.y -= this.settings.tileWidth;
+					tile2.y = tile.y - this.settings.tileWidth;
 				}
 			}
 			// Update tile turning timers
@@ -112,15 +120,18 @@ main.update = function() {
 				case "k":
 					if (formation >= 7) {
 						width = this.settings.tileWidth * 4;
+						closedTile = 4;
 						break;
 					} else if (formation < 4) {
 						width = this.settings.tileWidth * 13/3;
 					}
-					turnTile = formation % 4;
+					turnTile = formation % 4 + 1;
 					doubleTile = Math.max(0, formation - 3);
 					break;
 				case "t":
 				case "r":
+					width = this.settings.tileWidth;
+					break;
 				case "K":
 					width = this.settings.tileWidth * formation;
 					break;
