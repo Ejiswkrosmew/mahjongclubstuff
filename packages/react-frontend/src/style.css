@@ -7,10 +7,57 @@
 
 #canvas {
     border: solid #A5C9D1;
+    position: relative;
 }
 
-#handInputWrapper {
+#canvasWrapper {
     width: 100%;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+#inputWrapper {
+    width: 100%;
+    position: absolute;
+    top: 330px;
+    display: flex;
+}
+
+#inputWrapper * {
+    margin-right: 10px;
+}
+
+#mainInput div {
+    margin-top: 10px;
+}
+
+#mainInput input[type="text"] {
+    width: 95%;
+}
+
+#tileButtons {
+    width: 600px;
+}
+
+#tileButtons div {
+    display: inline-block;
+    margin: 0;
+    width: 60px;
+    height: 80px;
+}
+
+#tileButtons div:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+#tileButtons div:active {
+    filter: brightness(0.8);
+}
+
+#helpText {
+    flex-grow: 1;
 }
 
 body {
