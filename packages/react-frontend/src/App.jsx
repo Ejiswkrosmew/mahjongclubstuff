@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect, useRef } from 'react';
+import Hand from "./hand.jsx";
+import HandInput from "./handInput.jsx";
+import Buttons from "./buttons.jsx";
+import useScript from "./hooks/useScript.jsx";
+import './style.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const canvas = useRef(null);
+  const [handStr, setHandStr] = useState("");
+
+  useScript("./setUpv2.js");
+  useScript("./hand.js");
+
+
+  useEffect(() => {
+      const main = window.main;
+      if (!main) {
+          return;
+      }
+      
+      main.hand = [];
+      for (let i = 0; i + 1 < handStr.length; i += 2) {
+          main.hand.push(handStr.slice(i, i + 2));
+      }
+
+      console.log(main.hand);
+  }, [handStr]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+		<canvas ref={canvas} id="canvas" width="400" height="300"></canvas>
+		<HandInput handStr={handStr} setHandStr={setHandStr} />
+		<Buttons handStr={handStr} setHandStr={setHandStr} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

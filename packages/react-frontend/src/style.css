@@ -1,0 +1,18 @@
+#root {
+    padding: 10px;
+    display: block;
+    width: fit-content;
+    height: fit-content;
+}
+
+#canvas {
+    border: solid #A5C9D1;
+}
+
+#handInputWrapper {
+    width: 100%;
+}
+
+body {
+	background-color: #cfe2f3;
+}
