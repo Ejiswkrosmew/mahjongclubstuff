@@ -7,20 +7,14 @@
 
 #canvas {
     border: solid #A5C9D1;
-    position: relative;
 }
 
 #canvasWrapper {
     width: 100%;
-    position: fixed;
-    top: 10px;
-    left: 10px;
 }
 
 #inputWrapper {
     width: 100%;
-    position: absolute;
-    top: 330px;
     display: flex;
 }
 
@@ -36,23 +30,31 @@
     width: 95%;
 }
 
-#tileButtons {
+#handButtons {
     width: 600px;
+    text-align: center;
 }
 
-#tileButtons div {
+#handButtons .tileButtons {
     display: inline-block;
     margin: 0;
     width: 60px;
     height: 80px;
 }
 
-#tileButtons div:hover {
+#handButtons .callButtons {
+    display: inline-block;
+    margin: 0;
+    width: 150px;
+    height: 69px;
+}
+
+#handButtons div:hover {
     cursor: pointer;
     filter: brightness(1.2);
 }
 
-#tileButtons div:active {
+#handButtons div:active {
     filter: brightness(0.8);
 }
 

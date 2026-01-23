@@ -17,21 +17,24 @@ function App() {
       if (!main) {
           return;
       }
-      
-      main.hand = [];
+
+      let newHand = [];
       for (let i = 0; i + 1 < handStr.length; i += 2) {
-          main.hand.push(handStr.slice(i, i + 2));
+        let token = handStr.slice(i, i + 2);
+        if (!isNaN(parseInt(token[0])) == !isNaN(parseInt(token[1]))) {
+            return;
+        }
+        newHand.push(handStr.slice(i, i + 2));
       }
 
-      main.updateWidth = true;
-
-      console.log(main.hand);
+      main.hand = newHand;
+      main.render();
   }, [handStr]);
 
   return (
     <>
     <div id="canvasWrapper">
-        <canvas id="canvas" width="400" height="300"></canvas>
+        <canvas id="canvas" height="1000" style={{height: "250px"}}></canvas>
     </div>
     <div id="inputWrapper">
       <div id="mainInput">

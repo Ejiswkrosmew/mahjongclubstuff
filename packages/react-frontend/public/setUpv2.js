@@ -25,9 +25,9 @@ function Canvas(num) {
 	//preloadImage Array (true = not complete, false = complete)
 	this.preloadImageArray = {
 		result: false,
-		update: function() {
+		update: function () {
 			var start = true;
-			Object.keys(this).forEach(function(key) {
+			Object.keys(this).forEach(function (key) {
 				var value = this[key]
 				if (key != "result" && key != "update" && value) {
 					this.result = true;
@@ -44,7 +44,7 @@ function Canvas(num) {
 	this.ctx.fillStyle = thisObj.backgroundColor
 	this.ctx.fillRect(0, 0, thisObj.canvas.width, thisObj.canvas.height);
 
-	this.getImageData = function(name) {
+	this.getImageData = function (name) {
 		var image = thisObj.loadedImages[name];
 		imgCanvas.width = image.width;
 		imgCanvas.height = image.height;
@@ -55,7 +55,7 @@ function Canvas(num) {
 		return imageData;
 	}.bind(this)
 
-	this.getSpritesheetImageData = function(name) {
+	this.getSpritesheetImageData = function (name) {
 		var image = thisObj.spritesheets[name].img;
 		imgCanvas.width = image.width;
 		imgCanvas.height = image.height;
@@ -67,13 +67,13 @@ function Canvas(num) {
 	}
 
 	//Loads an image to loadedImages
-	this.loadImage = function(src, name) {
+	this.loadImage = function (src, name) {
 		thisObj.loadedImages[name] = new Image();
 		thisObj.loadedImages[name].src = src;
 		this.preloadImage(name)
 	}
 
-	this.loadImageData = function(imageData, name) {
+	this.loadImageData = function (imageData, name) {
 		imgCanvas.width = imageData.width;
 		imgCanvas.height = imageData.height;
 		imgCtx.putImageData(imageData, 0, 0);
@@ -85,7 +85,7 @@ function Canvas(num) {
 	}
 
 	//Creates an image (regular sprite)
-	this.createImage = function(x, y, srcName, id, width, height, attributes) {
+	this.createImage = function (x, y, srcName, id, width, height, attributes) {
 		//If the name isn't valid, abort (you can't name it undefined)
 		if (typeof id != "string") {
 			console.log("Error: \"" + id + "\" is not a valid name");
@@ -111,9 +111,9 @@ function Canvas(num) {
 		}
 		attributes = attributes || {};
 		//return statement that allows the user to edit the sprite via a variable
-		return function() {
+		return function () {
 			//Create the sprite object inside the sprite array
-			thisObj.sprites[id] = new function() {
+			thisObj.sprites[id] = new function () {
 				this.x = x;
 				this.y = y;
 				this.width = width;
@@ -127,21 +127,21 @@ function Canvas(num) {
 				this.smoothing = attributes.smoothing;
 				this.imageType = "sprite"
 				this.id = id;
-				this.onclick = function() { }
-				this.onmousedown = function() { }
-				this.onmouseup = function() { }
-				this.moveToTop = function() {
+				this.onclick = function () { }
+				this.onmousedown = function () { }
+				this.onmouseup = function () { }
+				this.moveToTop = function () {
 					if (thisObj.spriteLoadOrder.indexOf(id) < 0) return;
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1);
 					thisObj.spriteLoadOrder.push(id)
 				}
-				this.kill = function() {
+				this.kill = function () {
 					if (!thisObj.sprites[id]) return;
 					delete thisObj.sprites[id];
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1);
-					this.kill = function() { };
+					this.kill = function () { };
 				}
-				this.updateSprite = function() {
+				this.updateSprite = function () {
 					if (!this.img.complete) return;
 					var _this = this;
 					this.x += this.velocityX / 60;
@@ -149,7 +149,7 @@ function Canvas(num) {
 					thisObj.ctx.globalAlpha = this.alpha;
 					thisObj.ctx.globalAlpha = 1;
 				}
-				this.switchTextures = function(srcName) {
+				this.switchTextures = function (srcName) {
 					var widthScale = this.width / this.img.naturalWidth;
 					var heightScale = this.height / this.img.naturalHeight;
 					this.srcName = srcName;
@@ -169,13 +169,13 @@ function Canvas(num) {
 		}()
 	}
 
-	this.loadSpritesheet = function(width, height, src, name) {
+	this.loadSpritesheet = function (width, height, src, name) {
 		thisObj.spritesheets[name] = { width: width, height: height, img: new Image() };
 		thisObj.spritesheets[name].img.src = src;
 		this.preloadImage(name)
 	}
 
-	this.loadSpritesheetImageData = function(width, height, imageData, name) {
+	this.loadSpritesheetImageData = function (width, height, imageData, name) {
 		var canvas = document.createElement("canvas");
 		var ctx = canvas.getContext("2d");
 		canvas.width = imageData.width;
@@ -189,7 +189,7 @@ function Canvas(num) {
 		this.preloadImage(name)
 	}
 
-	this.createSpritesheetImage = function(x, y, srcName, id, frame, width, height, attributes) {
+	this.createSpritesheetImage = function (x, y, srcName, id, frame, width, height, attributes) {
 		//If the name isn't valid, abort (you can't name it undefined)
 		if (typeof id != "string") {
 			console.log("Error: '" + id + "' is not a valid name");
@@ -219,8 +219,8 @@ function Canvas(num) {
 		}
 		attributes = attributes || {};
 		//return statement that allows the user to edit the sprite object via a variable.
-		return function() {
-			thisObj.sprites[id] = new function() {
+		return function () {
+			thisObj.sprites[id] = new function () {
 				this.x = x;
 				this.y = y;
 				this.width = width;
@@ -237,27 +237,27 @@ function Canvas(num) {
 				this.frame = frame;
 				this.animations = {};
 				this.animationPause = false;
-				this.onclick = function() { }
-				this.onmousedown = function() { }
-				this.onmouseup = function() { }
-				this.moveToTop = function() {
+				this.onclick = function () { }
+				this.onmousedown = function () { }
+				this.onmouseup = function () { }
+				this.moveToTop = function () {
 					if (thisObj.spriteLoadOrder.indexOf(id) < 0) return;
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
 					thisObj.spriteLoadOrder.push(id)
 				}
-				this.kill = function() {
+				this.kill = function () {
 					if (!thisObj.sprites[id]) return;
 					if (thisObj.sprites[id].stopAnimation) thisObj.sprites[id].stopAnimation();
 					delete thisObj.sprites[id];
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
-					this.kill = function() { };
+					this.kill = function () { };
 				}
-				this.updateSprite = function() {
+				this.updateSprite = function () {
 					if (!this.spritesheet.img.complete) return;
 					this.x += this.velocityX / 60;
 					this.y += this.velocityY / 60;
 				}
-				this.switchTextures = function(srcName) {
+				this.switchTextures = function (srcName) {
 					var widthScale = this.width / this.spritesheet.width;
 					var heightScale = this.height / this.spritesheet.height;
 					this.srcName = srcName;
@@ -267,14 +267,14 @@ function Canvas(num) {
 					this.framesX = Math.floor(this.spritesheet.img.naturalWidth / this.spritesheet.width)
 					this.framesY = Math.floor(this.spritesheet.img.naturalHeight / this.spritesheet.height)
 				}
-				this.createAnimation = function(name, frames, fps, repeat) {
+				this.createAnimation = function (name, frames, fps, repeat) {
 					this.animations[name] = { frames: frames, fps: fps, repeat: repeat };
 				}
-				this.animate = function(name) {
+				this.animate = function (name) {
 					var _this = this;
 					if (!this.spritesheet.img.complete) {
-						var tempFunction = this.spritesheet.img.onload || function() { };
-						this.spritesheet.img.onload = function() {
+						var tempFunction = this.spritesheet.img.onload || function () { };
+						this.spritesheet.img.onload = function () {
 							tempFunction();
 							runAnimation();
 						};
@@ -290,7 +290,7 @@ function Canvas(num) {
 						_this.frame = animation.frames[0];
 						var startTime = thisObj.timer;
 						var pauseTime;
-						_this.animation = function() {
+						_this.animation = function () {
 							if (_this.animationPause) return;
 							while (thisObj.timer - startTime >= _this.animationIndex * 60 / animation.fps) {
 								if (_this.animationIndex >= animation.frames.length) {
@@ -306,21 +306,21 @@ function Canvas(num) {
 							}
 							thisObj.waitForFrames(_this.animation, 0);
 						}
-						_this.pauseAnimation = function() {
+						_this.pauseAnimation = function () {
 							_this.animationPause = true;
 							pauseTime = thisObj.timer - startTime + 1;
 						}
-						_this.resumeAnimation = function() {
+						_this.resumeAnimation = function () {
 							startTime = thisObj.timer - (pauseTime || 0);
 							_this.animationPause = false;
 							_this.animation();
 						}
-						_this.stopAnimation = function() {
-							_this.animation = function() { };
+						_this.stopAnimation = function () {
+							_this.animation = function () { };
 							_this.animationPause = false;
 							_this.animationRunning = false;
 						}
-						_this.skipAnimationFrames = function(num) {
+						_this.skipAnimationFrames = function (num) {
 							startTime -= num * 60 / animation.fps;
 							pauseTime += num * 60 / animation.fps;
 							_this.animationIndex += num;
@@ -338,10 +338,10 @@ function Canvas(num) {
 		}();
 	}
 
-	this.createRect = function(x, y, id, width, height, attributes) {
+	this.createRect = function (x, y, id, width, height, attributes) {
 		attributes = attributes || {};
-		return (function() {
-			thisObj.sprites[id] = new function() {
+		return (function () {
+			thisObj.sprites[id] = new function () {
 				this.x = x;
 				this.y = y;
 				this.width = width;
@@ -355,20 +355,20 @@ function Canvas(num) {
 				this.alpha = attributes.alpha || 1;
 				this.degrees = attributes.degrees || 0;
 				this.imageType = "rect";
-				this.onclick = function() { };
-				this.onmousedown = function() { }
-				this.onmouseup = function() { }
-				this.moveToTop = function() {
+				this.onclick = function () { };
+				this.onmousedown = function () { }
+				this.onmouseup = function () { }
+				this.moveToTop = function () {
 					if (thisObj.spriteLoadOrder.indexOf(id) < 0) return;
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
 					thisObj.spriteLoadOrder.push(id)
 				};
-				this.kill = function() {
+				this.kill = function () {
 					delete thisObj.sprites[id];
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
-					this.kill = function() { };
+					this.kill = function () { };
 				};
-				this.draw = function() {
+				this.draw = function () {
 					var width = Math.abs(this.width);
 					var height = Math.abs(this.height);
 					thisObj.ctx.lineWidth = this.strokeWidth || 1;
@@ -384,10 +384,10 @@ function Canvas(num) {
 		})();
 	}
 
-	this.createText = function(x, y, id, text, attributes) {
+	this.createText = function (x, y, id, text, attributes) {
 		attributes = attributes || {};
-		return (function() {
-			thisObj.sprites[id] = new function() {
+		return (function () {
+			thisObj.sprites[id] = new function () {
 				this.x = x;
 				this.y = y;
 				this.text = text;
@@ -401,20 +401,20 @@ function Canvas(num) {
 				this.alpha = 1;
 				this.degrees = attributes.degrees || 0;
 				this.imageType = "text";
-				this.onclick = function() { };
-				this.onmousedown = function() { }
-				this.onmouseup = function() { }
-				this.moveToTop = function() {
+				this.onclick = function () { };
+				this.onmousedown = function () { }
+				this.onmouseup = function () { }
+				this.moveToTop = function () {
 					if (thisObj.spriteLoadOrder.indexOf(id) < 0) return;
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
 					thisObj.spriteLoadOrder.push(id)
 				};
-				this.kill = function() {
+				this.kill = function () {
 					delete thisObj.sprites[id];
 					thisObj.spriteLoadOrder.splice(thisObj.spriteLoadOrder.indexOf(id), 1)
-					this.kill = function() { };
+					this.kill = function () { };
 				};
-				this.draw = function() {
+				this.draw = function () {
 					thisObj.ctx.font = this.font;
 					thisObj.ctx.fillStyle = this.color;
 					thisObj.ctx.textAlign = this.textAlign;
@@ -429,103 +429,99 @@ function Canvas(num) {
 	}
 
 	//Update function declared to solve errors
-	this.update = function() { }
+	this.update = function () { }
 
 	//Render function which renders all of the sprites into the canvas
-	this.render = function() {
-		for (let i = 0; i < thisObj.maximumRender; i++) {
-			if (thisObj.timer * 100 / 6 >= Date.now() - thisObj.startTime) break;
-			var eventsToKill = [];
-			var tempFrameEvents = [].concat(thisObj.frameEvents);
-			tempFrameEvents.forEach(function(frameEventObj) {
-				if (frameEventObj.pause) return;
-				var repeatValue = frameEventObj.repeatValue;
-				if (frameEventObj.endCondition && eval(frameEventObj.endCondition)) {
-					frameEventObj.endFunction();
-					eventsToKill.push(frameEventObj)
-				} else {
-					if (frameEventObj.currentFrame >= frameEventObj.frames) {
-						frameEventObj.callback();
-						frameEventObj.currentFrame = 0;
-						if (!frameEventObj.repeat) {
-							eventsToKill.push(frameEventObj)
-						}
-						else frameEventObj.repeatValue++;
+	this.render = function () {
+		var eventsToKill = [];
+		var tempFrameEvents = [].concat(thisObj.frameEvents);
+		tempFrameEvents.forEach(function (frameEventObj) {
+			if (frameEventObj.pause) return;
+			var repeatValue = frameEventObj.repeatValue;
+			if (frameEventObj.endCondition && eval(frameEventObj.endCondition)) {
+				frameEventObj.endFunction();
+				eventsToKill.push(frameEventObj)
+			} else {
+				if (frameEventObj.currentFrame >= frameEventObj.frames) {
+					frameEventObj.callback();
+					frameEventObj.currentFrame = 0;
+					if (!frameEventObj.repeat) {
+						eventsToKill.push(frameEventObj)
 					}
-					else {
-						frameEventObj.currentFrame++;
-					}
+					else frameEventObj.repeatValue++;
 				}
-			})
-			eventsToKill.forEach(function(frameEventObj) {
-				if (frameEventObj) frameEventObj.killEvent();
-			})
-			thisObj.update();
-			// Store the current transformation matrix
+				else {
+					frameEventObj.currentFrame++;
+				}
+			}
+		})
+		eventsToKill.forEach(function (frameEventObj) {
+			if (frameEventObj) frameEventObj.killEvent();
+		})
+		thisObj.update();
+		// Store the current transformation matrix
+		thisObj.ctx.save();
+
+		// Use the identity matrix while clearing the canvas
+		thisObj.ctx.setTransform(1, 0, 0, 1, 0, 0);
+		thisObj.ctx.clearRect(0, 0, thisObj.canvas.width, thisObj.canvas.height);
+
+		// Restore the transform
+		thisObj.ctx.restore();
+		thisObj.ctx.fillStyle = thisObj.backgroundColor
+		thisObj.ctx.fillRect(0, 0, thisObj.canvas.width, thisObj.canvas.height);
+		thisObj.spriteLoadOrder.forEach(function (key) {
+			(() => {
+				if (!thisObj.sprites[key]) console.log("Error: Sprite " + key + " does not exist but is being loaded", thisObj.spriteLoadOrder);
+				return thisObj.sprites[key].updateSprite || function () { };
+			})();
+		})
+		//Plan to do collisions here (currently don't work)
+		thisObj.spriteLoadOrder.forEach(function (key) {
+			var sprite = thisObj.sprites[key];
+			var width = sprite.width || 0;
+			var height = sprite.height || 0;
+			thisObj.ctx.globalAlpha = sprite.alpha;
+			sprite.x += sprite.velocityX / 60;
+			sprite.y += sprite.velocityY / 60;
 			thisObj.ctx.save();
-
-			// Use the identity matrix while clearing the canvas
-			thisObj.ctx.setTransform(1, 0, 0, 1, 0, 0);
-			thisObj.ctx.clearRect(0, 0, thisObj.canvas.width, thisObj.canvas.height);
-
-			// Restore the transform
+			thisObj.ctx.scale(width < 0 ? -1 : 1, height < 0 ? -1 : 1);
+			thisObj.ctx.translate(width < 0 ? -sprite.x - width / 2 : sprite.x + width / 2, height < 0 ? -sprite.y - height / 2 : sprite.y + height / 2);
+			thisObj.ctx.imageSmoothingEnabled = sprite.smoothing ?? thisObj.imageSmoothing ?? true;
+			width = Math.abs(width);
+			height = Math.abs(height);
+			if (sprite.degrees % 360 != 0) {
+				thisObj.ctx.rotate(sprite.degrees * Math.PI / 180);
+			}
+			switch (sprite.imageType) {
+				case "spritesheet":
+					var spritesheet = sprite.spritesheet;
+					thisObj.ctx.drawImage(spritesheet.img, spritesheet.width * (sprite.frame % spritesheet.framesX), spritesheet.height * Math.floor(sprite.frame / spritesheet.framesX), spritesheet.width, spritesheet.height, -width / 2, -height / 2, width, height);
+					break;
+				case "sprite":
+					// if (!sprite.img.complete) return;
+					thisObj.ctx.drawImage(sprite.img, -width / 2, -height / 2, width, height);
+					break;
+				default:
+					sprite.draw();
+			}
 			thisObj.ctx.restore();
-			thisObj.ctx.fillStyle = thisObj.backgroundColor
-			thisObj.ctx.fillRect(0, 0, thisObj.canvas.width, thisObj.canvas.height);
-			thisObj.spriteLoadOrder.forEach(function(key) {
-				(() => {
-					if (!thisObj.sprites[key]) console.log("Error: Sprite " + key + " does not exist but is being loaded", thisObj.spriteLoadOrder);
-					return thisObj.sprites[key].updateSprite || function() { };
-				})();
-			})
-			//Plan to do collisions here (currently don't work)
-			thisObj.spriteLoadOrder.forEach(function(key) {
-				var sprite = thisObj.sprites[key];
-				var width = sprite.width || 0;
-				var height = sprite.height || 0;
-				thisObj.ctx.globalAlpha = sprite.alpha;
-				sprite.x += sprite.velocityX / 60;
-				sprite.y += sprite.velocityY / 60;
-				thisObj.ctx.save();
-				thisObj.ctx.scale(width < 0 ? -1 : 1, height < 0 ? -1 : 1);
-				thisObj.ctx.translate(width < 0 ? -sprite.x - width / 2 : sprite.x + width / 2, height < 0 ? -sprite.y - height / 2 : sprite.y + height / 2);
-				thisObj.ctx.imageSmoothingEnabled = sprite.smoothing ?? thisObj.imageSmoothing ?? true;
-				width = Math.abs(width);
-				height = Math.abs(height);
-				if (sprite.degrees % 360 != 0) {
-					thisObj.ctx.rotate(sprite.degrees * Math.PI / 180);
-				}
-				switch (sprite.imageType) {
-					case "spritesheet":
-						var spritesheet = sprite.spritesheet;
-						thisObj.ctx.drawImage(spritesheet.img, spritesheet.width * (sprite.frame % spritesheet.framesX), spritesheet.height * Math.floor(sprite.frame / spritesheet.framesX), spritesheet.width, spritesheet.height, -width / 2, -height / 2, width, height);
-						break;
-					case "sprite":
-						// if (!sprite.img.complete) return;
-						thisObj.ctx.drawImage(sprite.img, -width / 2, -height / 2, width, height);
-						break;
-					default:
-						sprite.draw();
-				}
-				thisObj.ctx.restore();
-				thisObj.ctx.globalAlpha = 1;
-			})
-			thisObj.timer++;
-		}
-		requestAnimationFrame(thisObj.render);
+			thisObj.ctx.globalAlpha = 1;
+		})
+		thisObj.timer++;
 	}
 
 	//Preloads images so that they can later be used as sprites
-	this.preloadImage = function(imageNames) {
+	this.preloadImage = function (imageNames) {
 		imageNames = typeof imageNames === "object" ? imageNames : [imageNames];
-		imageNames.forEach(function(imageName) {
+		imageNames.forEach(function (imageName) {
 			var key = imageName + "WaitLoad";
 			thisObj.preloadImageArray[key] = true;
 		})
 	}
 
-	this.checkpreloadImage = function() {
-		if (function() {
+	this.checkpreloadImage = function () {
+		if (function () {
 			var result = true;
 			for (var i = 0, keys = Object.keys(thisObj.preloadImageArray); i < keys.length; i++) {
 				if (keys[i] == "result" || keys[i] == "update") continue;
@@ -556,27 +552,27 @@ function Canvas(num) {
 		}
 	}
 
-	this.preload = function() { requestAnimationFrame(thisObj.preload); return true; }
+	this.preload = function () { requestAnimationFrame(thisObj.preload); return true; }
 
 	requestAnimationFrame(this.preload)
 
-	var preloadInt = setInterval(function() {
+	var preloadInt = setInterval(function () {
 		if (!thisObj.preload()) {
 			requestAnimationFrame(thisObj.checkpreloadImage);
 			clearInterval(preloadInt)
 		}
 	}, 50 / 3)
 
-	this.create = function() { };
+	this.create = function () { };
 
-	this.waitForFrames = function(callback, frames, priority) {
+	this.waitForFrames = function (callback, frames, priority) {
 		var event = {
 			callback: callback,
 			frames: frames,
 			id: thisObj.currentFrameEventID,
 			currentFrame: 0,
 			repeat: false,
-			killEvent: function() { if ((pos = thisObj.frameEvents.indexOf(thisObj.frameEvents.find(obj => obj.id === this.id))) >= 0) { thisObj.frameEvents.splice(pos, 1); }; }
+			killEvent: function () { if ((pos = thisObj.frameEvents.indexOf(thisObj.frameEvents.find(obj => obj.id === this.id))) >= 0) { thisObj.frameEvents.splice(pos, 1); }; }
 		}
 		if (!priority) thisObj.frameEvents.push(event);
 		else thisObj.frameEvents.splice(0, 0, event);
@@ -584,18 +580,18 @@ function Canvas(num) {
 		return thisObj.frameEvents.find(obj => obj.id === thisObj.currentFrameEventID - 1);
 	}
 
-	this.repeatFrames = function(callback, frames, endCondition, endFunction, priority) {
+	this.repeatFrames = function (callback, frames, endCondition, endFunction, priority) {
 		var event = {
 			callback: callback,
 			frames: frames,
 			id: thisObj.currentFrameEventID,
 			endCondition: endCondition,
-			endFunction: endFunction || function() { },
+			endFunction: endFunction || function () { },
 			currentFrame: 0,
 			repeatValue: 0,
 			pause: false,
 			repeat: true,
-			killEvent: function() { if ((pos = thisObj.frameEvents.indexOf(thisObj.frameEvents.find(obj => obj.id === this.id))) >= 0) { thisObj.frameEvents.splice(pos, 1); }; }
+			killEvent: function () { if ((pos = thisObj.frameEvents.indexOf(thisObj.frameEvents.find(obj => obj.id === this.id))) >= 0) { thisObj.frameEvents.splice(pos, 1); }; }
 		}
 		if (!priority) thisObj.frameEvents.push(event); else thisObj.frameEvents.splice(0, 0, event);
 		thisObj.currentFrameEventID++;
@@ -718,58 +714,58 @@ function Canvas(num) {
 		keysDown: {},
 		keyDownEvents: {},
 		keyUpEvents: {},
-		keyIsDown: function(key) {
+		keyIsDown: function (key) {
 			return this.keysDown[this.keys[key]] === true;
 		},
-		onKeyDown: function(event, key, name, priority) {
+		onKeyDown: function (event, key, name, priority) {
 			this.keyDownEvents[thisObj.keys.keys[key]] = this.keyDownEvents[thisObj.keys.keys[key]] || {};
 			this.keyDownEvents[thisObj.keys.keys[key]][name] = [event, priority];
 		},
-		removeKeyDownEvent: function(key, name) {
+		removeKeyDownEvent: function (key, name) {
 			if (this.keyDownEvents[keys.keys[key]] && this.keyDownEvents[keys.keys[key]][name])
 				delete this.keyDownEvents[keys.keys[key]][name]
 		},
-		onKeyUp: function(event, key, name, priority) {
+		onKeyUp: function (event, key, name, priority) {
 			this.keyUpEvents[thisObj.keys.keys[key]] = this.keyUpEvents[thisObj.keys.keys[key]] || {}
 			this.keyUpEvents[thisObj.keys.keys[key]][name] = [event, priority];
 		},
-		removeKeyUpEvent: function(key, name) {
+		removeKeyUpEvent: function (key, name) {
 			if (this.keyUpEvents[keys.keys[key]] && this.keyUpEvents[keys.keys[key]][name])
 				delete this.keyUpEvents[keys.keys[key]][name]
 		}
 	}
 
-	this.keyDown = function(keyCode) {
+	this.keyDown = function (keyCode) {
 		if (thisObj.keys.keysDown[keyCode]) return;
 		thisObj.keys.keysDown[keyCode] = true;
 		if (!thisObj.keys.keyDownEvents[keyCode]) return;
-		Object.values(thisObj.keys.keyDownEvents[keyCode]).forEach(function(event) {
+		Object.values(thisObj.keys.keyDownEvents[keyCode]).forEach(function (event) {
 			thisObj.waitForFrames(event[0], 0, event[1]);
 		});
 	}
 
-	document.addEventListener("keydown", function(event) {
+	document.addEventListener("keydown", function (event) {
 		thisObj.keyDown(event.keyCode);
 	})
 
-	this.keyUp = function(keyCode) {
+	this.keyUp = function (keyCode) {
 		if (!thisObj.keys.keysDown[keyCode]) return;
 		thisObj.keys.keysDown[keyCode] = false;
 		if (!thisObj.keys.keyUpEvents[keyCode]) return;
-		Object.values(thisObj.keys.keyUpEvents[keyCode]).forEach(function(event) {
+		Object.values(thisObj.keys.keyUpEvents[keyCode]).forEach(function (event) {
 			thisObj.waitForFrames(event[0], 0, event[1]);
 		})
 	}
 
-	document.addEventListener("keyup", function(event) {
+	document.addEventListener("keyup", function (event) {
 		thisObj.keyUp(event.keyCode);
 	})
 
-	thisObj.canvas.addEventListener("blur", function() {
-		Object.keys(keys.keysDown).forEach(function(key) {
+	thisObj.canvas.addEventListener("blur", function () {
+		Object.keys(keys.keysDown).forEach(function (key) {
 			if (keys.keysDown[key]) {
 				if (!keys.keyUpEvents[key]) return
-				Object.values(keys.keyUpEvents[key]).forEach(function(event) {
+				Object.values(keys.keyUpEvents[key]).forEach(function (event) {
 					event[0]();
 				})
 			}
@@ -781,7 +777,7 @@ function Canvas(num) {
 	//     return sprite1.x + sprite1.width + sprite1.velocityX / 60 > sprite2.x + sprite2.velocityX / 60 && sprite1.x + sprite1.velocityX / 60 < sprite2.x + sprite2.width + sprite2.velocityX / 60 && sprite1.y + sprite1.height + sprite1.velocityY / 60 > sprite2.y + sprite2.velocityY / 60 && sprite1.y + sprite1.velocityY / 60 < sprite2.y + sprite2.height + sprite2.velocityY / 60;
 	// }
 
-	thisObj.canvas.addEventListener("click", function(event) {
+	thisObj.canvas.addEventListener("click", function (event) {
 		var mouseX = event.clientX - thisObj.canvas.getBoundingClientRect().left;
 		var mouseY = event.clientY - thisObj.canvas.getBoundingClientRect().top;
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
@@ -792,7 +788,7 @@ function Canvas(num) {
 		}
 	})
 
-	thisObj.canvas.addEventListener("mousedown", function(event) {
+	thisObj.canvas.addEventListener("mousedown", function (event) {
 		var mouseX = event.clientX - thisObj.canvas.getBoundingClientRect().left;
 		var mouseY = event.clientY - thisObj.canvas.getBoundingClientRect().top;
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
@@ -803,7 +799,7 @@ function Canvas(num) {
 		}
 	})
 
-	thisObj.canvas.addEventListener("mouseup", function(event) {
+	thisObj.canvas.addEventListener("mouseup", function (event) {
 		var mouseX = event.clientX - thisObj.canvas.getBoundingClientRect().left;
 		var mouseY = event.clientY - thisObj.canvas.getBoundingClientRect().top;
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
@@ -817,7 +813,7 @@ function Canvas(num) {
 	//Starting from here would be some code that I didn't really code and found online
 
 	//https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
-	this.copyTextToClipboard = function(text) {
+	this.copyTextToClipboard = function (text) {
 		var textArea = document.createElement("textarea");
 
 		//
