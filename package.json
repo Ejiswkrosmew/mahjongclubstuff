@@ -1,0 +1,23 @@
+{
+  "name": "mahjongclubstuff",
+  "version": "1.0.0",
+  "description": "Trying to recreate an old project I did in high school",
+  "homepage": "https://github.com/Ejiswkrosmew/mahjongclubstuff#readme",
+  "bugs": {
+    "url": "https://github.com/Ejiswkrosmew/mahjongclubstuff/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ejiswkrosmew/mahjongclubstuff.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+	"packages/*"
+  ]
+}
