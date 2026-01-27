@@ -13,20 +13,27 @@ function Buttons(props) {
 
     function handleCall(index) {
         let calls = ["c", "p", "k", "t", "r", "R", "K"];
-        let str = calls[index];
-        switch(str) {
-            case "p":
-                setCallMenu(1);
-                return;
-            case "k":
-                setCallMenu(2);
-                return;
-            case "K":
-                setCallMenu(3);
-                return;
+        let call = calls[index];
+        let token = props.handStr.slice(-2);
+        let tokenNum = parseInt(token[1]);
+        // TODO: Implement
+        // switch(str) {
+            //     case "p":
+            //         setCallMenu(1);
+            //         return;
+            //     case "k":
+            //         setCallMenu(2);
+            //         return;
+            //     case "K":
+            //         setCallMenu(3);
+            //         return;
+            // }
+        if (call == token[0] && !isNaN(tokenNum)) {
+            tokenNum = (tokenNum + 1) % 10;
+            props.setHandStr(props.handStr.slice(0, -2) + call + tokenNum);
+        } else {
+            props.setHandStr(old => old + call + "0");
         }
-        str += "0";
-        props.setHandStr(old => old + str);
     }
 
     let tileBackgrounds = [];
