@@ -133,7 +133,7 @@ main.update = function() {
 					width = this.settings.tileWidth;
 					break;
 				case "K":
-					width = this.settings.tileWidth * formation;
+					width = this.settings.tileWidth * (formation + 1);
 					break;
 				case "R":
 					currentX -= this.settings.meldPadding;
@@ -149,7 +149,7 @@ main.update = function() {
 			}
 
 			if (token[0] == "K") {
-				for (let k = 0; k < formation; k++) {
+				for (let k = 0; k <= formation; k++) {
 					let kita = this.getTile(tileIndex);
 					kita.alpha = 1;
 					kita.degrees = 0;
