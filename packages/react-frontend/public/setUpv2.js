@@ -782,8 +782,9 @@ function Canvas(num) {
 		var mouseY = event.clientY - thisObj.canvas.getBoundingClientRect().top;
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
 			var sprite = thisObj.sprites[thisObj.spriteLoadOrder[i]]
+			console.log(mouseX > sprite.x, mouseX < sprite.x + sprite.width, mouseY < sprite.y + sprite.height, mouseY > sprite.y);
 			if (mouseX > sprite.x && mouseX < sprite.x + sprite.width && mouseY < sprite.y + sprite.height && mouseY > sprite.y) {
-				thisObj.waitForFrames(sprite.onclick, 0);
+				sprite.onclick();
 			}
 		}
 	})
@@ -794,7 +795,7 @@ function Canvas(num) {
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
 			var sprite = thisObj.sprites[thisObj.spriteLoadOrder[i]]
 			if (mouseX > sprite.x && mouseX < sprite.x + sprite.width && mouseY < sprite.y + sprite.height && mouseY > sprite.y) {
-				thisObj.waitForFrames(sprite.onmousedown, 0);
+				sprite.onmousedown();
 			}
 		}
 	})
@@ -805,7 +806,7 @@ function Canvas(num) {
 		for (var i = thisObj.spriteLoadOrder.length - 1; i >= 0; i--) {
 			var sprite = thisObj.sprites[thisObj.spriteLoadOrder[i]]
 			if (mouseX > sprite.x && mouseX < sprite.x + sprite.width && mouseY < sprite.y + sprite.height && mouseY > sprite.y) {
-				thisObj.waitForFrames(sprite.onmouseup, 0);
+				sprite.onmouseup();
 			}
 		}
 	})
