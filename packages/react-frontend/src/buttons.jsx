@@ -77,20 +77,22 @@ function Buttons(props) {
 
     let buttons = buttonBackgrounds.slice(0, 7);
 
-    console.log(tileBackgrounds);
-    return (
-        <div id="handButtons">
-            {mans}
-            <br />
-            {pins}
-            <br />
-            {sous}
-            <br />
-            {honors}
-            <br />
-            {buttons}
-        </div>
-    );
+    switch(callMenu) {
+        default:
+            return (
+                <div id="handButtons">
+                    {mans}
+                    <br />
+                    {pins}
+                    <br />
+                    {sous}
+                    <br />
+                    {honors}
+                    <br />
+                    {buttons}
+                </div>
+            );
+    }
 }
 
 export default Buttons

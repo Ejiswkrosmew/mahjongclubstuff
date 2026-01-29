@@ -8,7 +8,7 @@ function App() {
     const [handStr, setHandStr] = useState("");
 
     function handleKeyDown(event) {
-        console.log(event.target);
+        // Don't do anything if the user is trying to type
         if (event.target.tagName.toUpperCase() == "INPUT") {
             return;
         }
@@ -16,6 +16,7 @@ function App() {
         const key = event.key;
         switch (key) {
             case "Backspace":
+                // Remove tiles/calls with backspace (All with shift key)
                 if (event.shiftKey) {
                     setHandStr("");
                 } else {
@@ -24,17 +25,14 @@ function App() {
         }
     }
 
-    function handleCanvasClick() {
-        console.log("foo");
-        setHandStr(window.main.hand.join(""));
-    }
-
     useScript("./setUpv2.js");
     useScript("./hand.js");
 
     useEffect(() => {
+        // Add keydown listener
         document.addEventListener('keydown', handleKeyDown);
 
+        // If for some reason this get's unmounted, remove the event
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         }
@@ -62,7 +60,7 @@ function App() {
     return (
         <>
             <div id="canvasWrapper">
-                <canvas id="canvas" onClick={handleCanvasClick} height="1000" style={{ height: "250px" }}></canvas>
+                <canvas id="canvas" />
             </div>
             <div id="inputWrapper">
                 <div id="mainInput">
@@ -71,6 +69,8 @@ function App() {
                 </div>
                 <div id="helpText">
                     <p>
+                        Backspace (outside of input box) removes the last tile/call. Shift + Backspace resets hand.
+                        <br />
                         YOU CAN MANUALLY INPUT A HAND HERE! DO NOT USE SPACES!
                         <br />
                         Numbered Tiles: 1-9m/p/s (Aka dora is 0)
