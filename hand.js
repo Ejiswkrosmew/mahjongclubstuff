@@ -164,6 +164,7 @@ main.update = function() {
 					break;
 				case "K":
 					width = this.settings.tileWidth * (formation + 1);
+					currentX += this.settings.tileWidth;
 					break;
 				case "R":
 					currentX -= this.settings.meldPadding;
@@ -187,6 +188,12 @@ main.update = function() {
 					
 					kita.frame = 34;
 					kita.x = currentX;
+
+					let tileText = this.tileText[tileIndex];
+					tileText.x = currentX + this.settings.tileWidth / 2;
+					tileText.color = "black";
+					tileText.text = this.consts.honors[4];
+
 					tileIndex++;
 					currentX += this.settings.tileWidth;
 				}
