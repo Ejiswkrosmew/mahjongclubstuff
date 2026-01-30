@@ -69,4 +69,4 @@ function strToHand(str) {
     return hand;
 }
 
-export default { handToStr, strToHand };
+export { handToStr, strToHand };

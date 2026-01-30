@@ -1,50 +1,9 @@
 import { useState, useEffect } from 'react';
 import HandInput from "./handInput.jsx";
 import Buttons from "./buttons.jsx";
+import { strToHand } from "./handFuncs.jsx";
 import useScript from "./hooks/useScript.jsx";
 import './style.css';
-
-function strToHand(str) {
-    let hand = [];
-    let storedNums = [];
-
-    for (let i = 0; i < str.length; i++) {
-        const curr = str[i];
-        const currNum = parseInt(curr);
-
-        // If it's a number, it goes into the numbers array
-        if (!isNaN(currNum)) {
-            storedNums.push(curr);
-            continue;
-        }
-        // Otherwise it's a character
-
-        // If there are stored numbers, it's a suit
-        if (storedNums.length > 0) {
-            for (let j = 0; j < storedNums.length; j++) {
-                hand.push(storedNums[j] + curr);
-            }
-            storedNums = [];
-            continue;
-        }
-
-        // Otherwise it's a call
-        i++;
-        // If not enough characters, return invalid hand
-        if (i >= str.length) {
-            return undefined;
-        }
-        hand.push(curr + str[i]);
-        continue;
-    }
-
-    // Invalid hand if there were unused numbers
-    if (storedNums.length > 0) {
-        return undefined;
-    }
-
-    return hand;
-}
 
 function App() {
     const [handStr, setHandStr] = useState("");

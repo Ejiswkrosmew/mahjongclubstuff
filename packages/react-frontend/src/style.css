@@ -49,12 +49,30 @@
     height: 69px;
 }
 
-#handButtons :is(.tileButtons, .callButtons, img):hover {
+#handButtons .ponButtons {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    width: 200.5px;
+    height: 80.75px;
+}
+
+#handButtons .kanButtons {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    width: 260px;
+    height: 120px;
+}
+
+#handButtons :is(.tileButtons, .callButtons, .ponButtons, .kanButtons, img):hover {
     cursor: pointer;
     filter: brightness(1.2);
 }
 
-#handButtons :is(.tileButtons, .callButtons, img):active {
+#handButtons :is(.tileButtons, .callButtons, .ponButtons, .kanButtons, img):active {
     filter: brightness(0.8);
 }
 

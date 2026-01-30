@@ -142,10 +142,8 @@ main.update = function() {
 			let width = this.settings.tileWidth * 10/3;
 			switch(token[0]) {
 				case "c":
-					turnTile = 1;
-					break;
 				case "p":
-					turnTile = formation + 1;
+					turnTile = (formation % 3) + 1;
 					break;
 				case "k":
 					if (formation >= 7) {

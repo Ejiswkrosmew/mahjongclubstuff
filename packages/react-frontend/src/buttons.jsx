@@ -1,34 +1,38 @@
 import { useState } from "react";
-import Pons from "./assets/pons.png";
-import Kans from "./assets/kans.png";
-import Kitas from "./assets/kitas.png";
 import Back from "./assets/back.png";
 
 function Buttons(props) {
-    let { callMenu, setCallMenu } = useState(0);
+    const [ callMenu, setCallMenu ] = useState(0);
 
     function indexToStr(index) {
         let suits = ["m", "p", "s", "z"];
         return index % 10 + suits[Math.floor(index / 10)];
     }
 
-    function handleCall(index) {
+    function handleCall(index, val) {
         let calls = ["c", "p", "k", "t", "r", "R", "K"];
         let call = calls[index];
         let token = props.handStr.slice(-2);
         let tokenNum = parseInt(token[1]);
-        // TODO: Implement
-        // switch(str) {
-            //     case "p":
-            //         setCallMenu(1);
-            //         return;
-            //     case "k":
-            //         setCallMenu(2);
-            //         return;
-            //     case "K":
-            //         setCallMenu(3);
-            //         return;
-            // }
+        
+        // If we know exactly want to add, add it and reset call menu
+        if (val != undefined) {
+            props.setHandStr(old => old + call + val);
+            setCallMenu(0);
+            return;
+        }
+        
+        // If there is a special menu for the call, do it
+        switch(call) {
+            case "p":
+                setCallMenu(1);
+                return;
+            case "k":
+                setCallMenu(2);
+                return;
+        }
+
+        // Default to adding the call/adding 1 to the call on future presses
         if (call == token[0] && !isNaN(tokenNum)) {
             tokenNum = (tokenNum + 1) % 10;
             props.setHandStr(props.handStr.slice(0, -2) + call + tokenNum);
@@ -37,6 +41,7 @@ function Buttons(props) {
         }
     }
 
+    // Tile buttons
     let tileBackgrounds = [];
     for (let i = 0; i < 6; i++) {
         let y = i * 100 / 5 + "%";
@@ -45,6 +50,7 @@ function Buttons(props) {
         }
     }
     
+    // Turning them into divs
     tileBackgrounds = tileBackgrounds.map((str, i) => <div 
         className="tileButtons"
         key={i}
@@ -54,29 +60,11 @@ function Buttons(props) {
         }}
     ></div>);
 
+    // Split the suits up
     let mans = tileBackgrounds.slice(0, 10);
     let pins = tileBackgrounds.slice(10, 20);
     let sous = tileBackgrounds.slice(20, 30);
     let honors = tileBackgrounds.slice(30, 38);
-
-    let buttonBackgrounds = [];
-    for (let i = 0; i < 4; i++) {
-        let y = i * 100 / 3 + "%";
-        for (let j = 0; j < 2; j++) {
-            buttonBackgrounds.push(j * 100 + "% " + y);
-        }
-    }
-
-    buttonBackgrounds = buttonBackgrounds.map((str, i) => <div 
-        className="callButtons"
-        key={i}
-        onClick={() => handleCall(i)}
-        style={{
-            background: "url(assets/buttons.png) " + str + " / 200%"
-        }}
-    ></div>);
-
-    let buttons = buttonBackgrounds.slice(0, 7);
 
     return (
         <div id="handButtons">
@@ -89,13 +77,86 @@ function Buttons(props) {
             {honors}
             <br />
             <div id="callsWrapper">
-                <div id="callsBackWrapper">
-                    <img src={Back}/>
-                </div>
-                {buttons}
+                <CallButtons callMenu={callMenu} setCallMenu={setCallMenu} handleCall={handleCall} />
             </div>
         </div>
     );
 }
 
-export default Buttons
+function CallButtons(props) {
+    // Call buttons
+    let buttonBackgrounds = [];
+    for (let i = 0; i < 4; i++) {
+        let y = i * 100 / 3 + "%";
+        for (let j = 0; j < 2; j++) {
+            buttonBackgrounds.push(j * 100 + "% " + y);
+        }
+    }
+
+    buttonBackgrounds = buttonBackgrounds.map((str, i) => <div 
+        className="callButtons"
+        key={i}
+        onClick={() => props.handleCall(i)}
+        style={{
+            background: "url(assets/buttons.png) " + str + " / 200%"
+        }}
+    ></div>);
+
+    let buttons = buttonBackgrounds.slice(0, 7);
+
+    // Pon Shape Buttons
+    let ponBackgrounds = [];
+    for (let i = 0; i < 3; i++) {
+        ponBackgrounds.push("0% " + (i * 100 / 2) + "%");
+    }
+
+    let pons = ponBackgrounds.map((str, i) => <div
+        className="ponButtons"
+        key={i}
+        onClick={() => props.handleCall(1, i)}
+        style={{
+            background: "url(assets/pons.png) " + str + " / 100%"
+        }}
+    ></div>);
+
+    // Kan Shape Buttons
+    let kanBackgrounds = [];
+    for (let i = 0; i < 4; i++) {
+        let y = i * 100 / 3 + "%";
+        for (let j = 0; j < 2; j++) {
+            kanBackgrounds.push(j * 100 + "% " + y);
+        }
+    }
+
+    let kans = kanBackgrounds.map((str, i) => <div 
+        className="kanButtons"
+        key={i}
+        onClick={() => props.handleCall(2, i)}
+        style={{
+            background: "url(assets/kans.png) " + str + " / 200%"
+        }}
+    ></div>);
+
+    switch(props.callMenu) {
+        case 1: // Pons
+            return (<>
+                <div id="callsBackWrapper">
+                    <img onClick={() => props.setCallMenu(0)} src={Back} />
+                </div>
+                {pons}
+            </>);
+        case 2: // Kans
+            return (<>
+                <div id="callsBackWrapper">
+                    <img onClick={() => props.setCallMenu(0)} src={Back} />
+                </div>
+                {kans}
+            </>);
+        default:
+            return (<>
+                {buttons}
+            </>);
+    }
+}
+
+export default Buttons;
