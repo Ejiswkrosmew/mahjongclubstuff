@@ -2,6 +2,7 @@ import { useState } from "react";
 import Pons from "./assets/pons.png";
 import Kans from "./assets/kans.png";
 import Kitas from "./assets/kitas.png";
+import Back from "./assets/back.png";
 
 function Buttons(props) {
     let { callMenu, setCallMenu } = useState(0);
@@ -77,22 +78,24 @@ function Buttons(props) {
 
     let buttons = buttonBackgrounds.slice(0, 7);
 
-    switch(callMenu) {
-        default:
-            return (
-                <div id="handButtons">
-                    {mans}
-                    <br />
-                    {pins}
-                    <br />
-                    {sous}
-                    <br />
-                    {honors}
-                    <br />
-                    {buttons}
+    return (
+        <div id="handButtons">
+            {mans}
+            <br />
+            {pins}
+            <br />
+            {sous}
+            <br />
+            {honors}
+            <br />
+            <div id="callsWrapper">
+                <div id="callsBackWrapper">
+                    <img src={Back}/>
                 </div>
-            );
-    }
+                {buttons}
+            </div>
+        </div>
+    );
 }
 
 export default Buttons

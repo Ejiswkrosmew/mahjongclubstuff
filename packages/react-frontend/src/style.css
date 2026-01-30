@@ -49,13 +49,29 @@
     height: 69px;
 }
 
-#handButtons div:hover {
+#handButtons :is(.tileButtons, .callButtons, img):hover {
     cursor: pointer;
     filter: brightness(1.2);
 }
 
-#handButtons div:active {
+#handButtons :is(.tileButtons, .callButtons, img):active {
     filter: brightness(0.8);
+}
+
+#callsWrapper {
+    margin:0;
+    width: 100%;
+}
+
+#callsWrapper #callsBackWrapper {
+    width:100%;
+    height: 54px;
+    margin: 0;
+}
+
+#callsBackWrapper img {
+    position: absolute;
+    left: 10px;
 }
 
 #helpText {
