@@ -1,11 +1,11 @@
 var main = new Canvas(0);
 
-main.preload = function() {
+main.preload = function () {
 	this.loadSpritesheet(600, 800, "assets/tiles.png", "tiles");
 	this.loadSpritesheet(201, 92, "assets/buttons.png", "buttons");
 }.bind(main);
 
-main.create = function() {
+main.create = function () {
 	this.hand = [];
 	this.tileText = [];
 	this.tileSprites = [];
@@ -13,12 +13,13 @@ main.create = function() {
 
 	this.settings = {
 		tileWidth: 240,
-		tileY: 320,
+		tileY: 160,
+		labelOffset: 160,
 		tileTextY: 120,
 		buttonWidth: 600,
-		buttonY: 720,
+		buttonY: 540,
 		meldPadding: 120,
-		canvasMult: 1/4,
+		canvasMult: 1 / 4,
 	}
 
 	this.consts = {
@@ -27,20 +28,19 @@ main.create = function() {
 		buttons: ["c", "p", "k", "t", "r", "R", "K"],
 	}
 
-	this.canvas.height = 250 / this.settings.canvasMult;
-	this.canvas.style.height = "250px";
+	this.labels = false;
 }.bind(main);
 
-main.getTile = function(index) {
+main.getTile = function (index) {
 	if (this.tileSprites.length <= index) {
-		this.tileSprites.push(this.createSpritesheetImage(0, this.settings.tileY, "tiles", "tile" + index, 0, this.settings.tileWidth));
-		this.tileText.push(this.createText(0, this.settings.tileTextY, "tileText" + index, "", {font: 24 / this.settings.canvasMult + "px Arial", align: "center"}));
+		this.tileSprites.push(this.createSpritesheetImage(0, 0, "tiles", "tile" + index, 0, this.settings.tileWidth));
+		this.tileText.push(this.createText(0, this.settings.tileTextY, "tileText" + index, "", { font: 24 / this.settings.canvasMult + "px Arial", align: "center" }));
 	}
 
 	return this.tileSprites[index];
 }.bind(main);
 
-main.update = function() {
+main.update = function () {
 	let i;
 	let turnTile = 0;
 	let doubleTile = 0;
@@ -59,19 +59,21 @@ main.update = function() {
 			let tile = this.getTile(tileIndex);
 			tile.alpha = 1;
 			tile.degrees = 0;
-			tile.y = this.settings.tileY;
-			
+			tile.y = this.settings.tileY + this.labels * this.settings.labelOffset;
+
 			// Set the tile correctly
 			tile.frame = this.consts.suits.indexOf(token[1]) * 10 + parseInt(token[0]);
 			tile.x = currentX;
-			
+
 			// Set up the tile text
 			let tileText = this.tileText[tileIndex];
 			tileText.x = currentX + this.settings.tileWidth / 2;
 			tileText.color = "black";
 			tileText.text = token[0];
 
-			if (token[1] == "z") {
+			if (!this.labels) {
+				tileText.text = "";
+			} else if (token[1] == "z") {
 				// Honors case
 				tileText.text = this.consts.honors[parseInt(token[0])];
 			} else if (token[0] == "0") {
@@ -81,11 +83,11 @@ main.update = function() {
 			}
 
 			// Check if tile should be closed
-			if (closedTile == 4 || closedTile == 1) {
+			if (closedTile & 1) {
 				tile.frame = 30;
 			}
 			// Update closed tile timer
-			closedTile--;
+			closedTile >>= 1
 
 			// Check for special tile positions due to calls
 			if (turnTile == 1) {
@@ -115,8 +117,8 @@ main.update = function() {
 			// Update tile turning timers
 			turnTile--;
 			doubleTile--;
-			
-			
+
+
 			// Update variables
 			tileIndex++;
 			currentX += this.settings.tileWidth;
@@ -128,32 +130,43 @@ main.update = function() {
 
 			// Add a button sprite if one doesn't exist
 			if (this.buttonSprites.length <= buttonIndex) {
-				this.buttonSprites.push(this.createSpritesheetImage(0, this.settings.buttonY, "buttons", "button" + buttonIndex, 0, this.settings.buttonWidth));
+				this.buttonSprites.push(this.createSpritesheetImage(0, 0, "buttons", "button" + buttonIndex, 0, this.settings.buttonWidth));
 			}
 
 			// Initialize the button
 			let button = this.buttonSprites[buttonIndex];
 			button.alpha = 1;
+			button.y = this.settings.buttonY + this.labels * this.settings.labelOffset;
 
 			// Add meld padding
 			currentX += this.settings.meldPadding;
 
 			// Calculate meld width
-			let width = this.settings.tileWidth * 10/3;
-			switch(token[0]) {
+			let width = this.settings.tileWidth * 10 / 3;
+			switch (token[0]) {
 				case "c":
 				case "p":
 					turnTile = (formation % 3) + 1;
 					break;
 				case "k":
-					if (formation >= 7) {
+					if (formation == 7 || formation == 9) {
 						width = this.settings.tileWidth * 4;
-						closedTile = 4;
+						closedTile = formation == 7 ? 9 : 14;
 						break;
-					} else if (formation < 4) {
-						width = this.settings.tileWidth * 13/3;
 					}
+
+					if (formation == 8) {
+						turnTile = 2;
+						doubleTile = 2;
+						closedTile = 5;
+						break;
+					}
+
 					turnTile = formation % 4 + 1;
+
+					if (formation < 4) {
+						width = this.settings.tileWidth * 13 / 3;
+					}
 					doubleTile = Math.max(0, formation - 3);
 					break;
 				case "t":
@@ -182,8 +195,8 @@ main.update = function() {
 					let kita = this.getTile(tileIndex);
 					kita.alpha = 1;
 					kita.degrees = 0;
-					kita.y = this.settings.tileY;
-					
+					kita.y = this.settings.tileY + this.labels * this.settings.labelOffset;
+
 					kita.frame = 34;
 					kita.x = currentX;
 
@@ -204,6 +217,10 @@ main.update = function() {
 
 	this.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth * 4 / 3 || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
 	this.canvas.style.width = this.canvas.width * this.settings.canvasMult + "px";
+
+	this.canvas.height = 840 + this.labels * this.settings.labelOffset;
+	document.documentElement.style.setProperty('--canvas-height', this.canvas.height * this.settings.canvasMult + "px");
+	// this.canvas.style.height = this.canvas.height * this.settings.canvasMult + "px";
 
 	// Make unused sprites invisible
 	for (; tileIndex < this.tileSprites.length; tileIndex++) {

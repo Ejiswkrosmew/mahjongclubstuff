@@ -9,26 +9,21 @@ function Buttons(props) {
         return index % 10 + suits[Math.floor(index / 10)];
     }
 
-    function handleCall(index, val) {
+    function handleCall(index) {
         let calls = ["c", "p", "k", "t", "r", "R", "K"];
         let call = calls[index];
         let token = props.handStr.slice(-2);
         let tokenNum = parseInt(token[1]);
         
-        // If we know exactly want to add, add it and reset call menu
-        if (val != undefined) {
-            props.setHandStr(old => old + call + val);
-            setCallMenu(0);
-            return;
-        }
-        
         // If there is a special menu for the call, do it
         switch(call) {
             case "p":
                 setCallMenu(1);
+                props.setCallMenu(1);
                 return;
             case "k":
                 setCallMenu(2);
+                props.setCallMenu(2);
                 return;
         }
 
@@ -39,6 +34,9 @@ function Buttons(props) {
         } else {
             props.setHandStr(old => old + call + "0");
         }
+
+        // Reset call menu
+        props.setCallMenu(0);
     }
 
     // Tile buttons
@@ -104,54 +102,7 @@ function CallButtons(props) {
 
     let buttons = buttonBackgrounds.slice(0, 7);
 
-    // Pon Shape Buttons
-    let ponBackgrounds = [];
-    for (let i = 0; i < 3; i++) {
-        ponBackgrounds.push("0% " + (i * 100 / 2) + "%");
-    }
-
-    let pons = ponBackgrounds.map((str, i) => <div
-        className="ponButtons"
-        key={i}
-        onClick={() => props.handleCall(1, i)}
-        style={{
-            background: "url(assets/pons.png) " + str + " / 100%"
-        }}
-    ></div>);
-
-    // Kan Shape Buttons
-    let kanBackgrounds = [];
-    for (let i = 0; i < 4; i++) {
-        let y = i * 100 / 3 + "%";
-        for (let j = 0; j < 2; j++) {
-            kanBackgrounds.push(j * 100 + "% " + y);
-        }
-    }
-
-    let kans = kanBackgrounds.map((str, i) => <div 
-        className="kanButtons"
-        key={i}
-        onClick={() => props.handleCall(2, i)}
-        style={{
-            background: "url(assets/kans.png) " + str + " / 200%"
-        }}
-    ></div>);
-
     switch(props.callMenu) {
-        case 1: // Pons
-            return (<>
-                <div id="callsBackWrapper">
-                    <img onClick={() => props.setCallMenu(0)} src={Back} />
-                </div>
-                {pons}
-            </>);
-        case 2: // Kans
-            return (<>
-                <div id="callsBackWrapper">
-                    <img onClick={() => props.setCallMenu(0)} src={Back} />
-                </div>
-                {kans}
-            </>);
         default:
             return (<>
                 {buttons}

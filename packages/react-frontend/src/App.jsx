@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import HandInput from "./handInput.jsx";
 import Buttons from "./buttons.jsx";
+import RightMenu from './rightMenu.jsx';
 import { strToHand } from "./handFuncs.jsx";
 import useScript from "./hooks/useScript.jsx";
 import './style.css';
 
 function App() {
     const [handStr, setHandStr] = useState("");
+    const [callMenu, setCallMenu] = useState(0);
 
     function handleKeyDown(event) {
         // Don't do anything if the user is trying to type
@@ -41,55 +43,39 @@ function App() {
 
     useEffect(() => {
         const main = window.main;
+
         if (!main) {
             return;
         }
 
         const newHand = strToHand(handStr);
         if (newHand != undefined) {
-            main.hand= newHand;
+            main.hand = newHand;
             main.render();
         }
     }, [handStr]);
+
+    function toggleLabels(event) {
+        const checked = event.currentTarget.checked;
+        const main = window.main;
+        main.labels = checked;
+        main.render();
+    }
 
     return (
         <>
             <div id="canvasWrapper">
                 <canvas id="canvas" />
             </div>
+            <div id="canvasSpacer"></div>
             <div id="inputWrapper">
                 <div id="mainInput">
                     <HandInput handStr={handStr} setHandStr={setHandStr} />
-                    <Buttons handStr={handStr} setHandStr={setHandStr} />
+                    <Buttons handStr={handStr} setHandStr={setHandStr} setCallMenu={setCallMenu} />
                 </div>
-                <div id="helpText">
-                    <p>
-                        Backspace (outside of input box) removes the last tile/call. Shift + Backspace resets hand.
-                        <br />
-                        YOU CAN MANUALLY INPUT A HAND HERE! DO NOT USE SPACES!
-                        <br />
-                        Numbered Tiles: 1-9m/p/s (Aka dora is 0)
-                        <br />
-                        Honor Tiles: 1-7z
-                        <br />
-                        Hidden Tile: 0z
-                        <br />
-                        Calls: letter followed by number (#). Still need to manually input the tiles involved in the call
-                        <br />
-                        Chii: c# (# doesn't matter)
-                        <br />
-                        Pon: p0-2 (# determines who it was from)
-                        <br />
-                        Kan: p0-7 (# determines who it was from). 0-3 Daiminkan, 4-6 Shouminkan, 7 Ankan
-                        <br />
-                        Tsumo: t# (# doesn't matter)
-                        <br />
-                        Ron: r# (# doesn't matter)
-                        <br />
-                        Riichi: R# (# doesn't matter) Put it at the end of the closed hand
-                        <br />
-                        Kita: K1-4 (# kita count)
-                    </p>
+                <div id="rightDiv">
+                    <b>Show Labels: </b><input id="labelCheckbox" type="checkbox" onChange={toggleLabels}></input>
+                    <RightMenu callMenu={callMenu} setCallMenu={setCallMenu} handStr={handStr} setHandStr={setHandStr} />
                 </div>
             </div>
         </>

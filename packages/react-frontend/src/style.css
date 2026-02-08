@@ -1,16 +1,28 @@
+:root {
+    --canvas-height: 250px;
+}
+
 #root {
     padding: 10px;
     display: block;
     width: fit-content;
+    min-width: 100vw;
     height: fit-content;
+    min-height: 100vh;
 }
 
 #canvas {
     border: solid #A5C9D1;
+    height: var(--canvas-height);
 }
 
 #canvasWrapper {
     width: 100%;
+}
+
+#canvasSpacer {
+    height: calc(250px - var(--canvas-height));
+    margin: 0;
 }
 
 #inputWrapper {
@@ -18,7 +30,7 @@
     display: flex;
 }
 
-#inputWrapper * {
+#inputWrapper>* {
     margin-right: 10px;
 }
 
@@ -49,7 +61,8 @@
     height: 69px;
 }
 
-#handButtons .ponButtons {
+#handButtons .ponButtons,
+#rightDiv .ponButtons {
     display: inline-block;
     margin-top: 0;
     margin-bottom: 20px;
@@ -58,7 +71,8 @@
     height: 80.75px;
 }
 
-#handButtons .kanButtons {
+#handButtons .kanButtons,
+#rightDiv .kanButtons {
     display: inline-block;
     margin-top: 0;
     margin-bottom: 20px;
@@ -67,22 +81,25 @@
     height: 120px;
 }
 
-#handButtons :is(.tileButtons, .callButtons, .ponButtons, .kanButtons, img):hover {
+#handButtons :is(.tileButtons, .callButtons):hover,
+#rightDiv :is(.ponButtons, .kanButtons, img):hover {
     cursor: pointer;
     filter: brightness(1.2);
 }
 
-#handButtons :is(.tileButtons, .callButtons, .ponButtons, .kanButtons, img):active {
+#handButtons :is(.tileButtons, .callButtons):active,
+#rightDiv :is(.ponButtons, .kanButtons, img):active {
     filter: brightness(0.8);
 }
 
 #callsWrapper {
-    margin:0;
+    margin: 0;
     width: 100%;
 }
 
-#callsWrapper #callsBackWrapper {
-    width:100%;
+#callsBackWrapper {
+    position: relative;
+    width: 100%;
     height: 54px;
     margin: 0;
 }
@@ -92,10 +109,10 @@
     left: 10px;
 }
 
-#helpText {
+#inputWrapper #rightDiv {
     flex-grow: 1;
 }
 
 body {
-	background-color: #cfe2f3;
+    background-color: #cfe2f3;
 }
