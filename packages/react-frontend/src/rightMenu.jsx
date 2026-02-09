@@ -66,8 +66,6 @@ function RightMenu(props) {
         }}
     ></div>).slice(0, 10);
 
-    console.log(props.callMenu, pons, kans);
-
     switch (props.callMenu) {
         case 1: // Pons
             return (<>

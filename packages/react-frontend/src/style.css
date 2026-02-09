@@ -1,5 +1,6 @@
 :root {
     --canvas-height: 250px;
+    --canvas-width: 0px;
 }
 
 #root {
@@ -14,6 +15,7 @@
 #canvas {
     border: solid #A5C9D1;
     height: var(--canvas-height);
+    width: var(--canvas-width);
 }
 
 #canvasWrapper {

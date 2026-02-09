@@ -23,7 +23,16 @@ function App() {
                 if (event.shiftKey) {
                     setHandStr("");
                 } else {
-                    setHandStr(old => old.slice(0, -2));
+                    setHandStr(old => {
+                        const last = old.slice(-2);
+                        const beforeLast = old.slice(-4, -2);
+                        const beforeLast2 = old.slice(-5, -4);
+                        if (isNaN(parseInt(last[0])) || (isNaN(parseInt(beforeLast[0]))  && isNaN(parseInt(beforeLast2))) || (isNaN(parseInt(beforeLast[1])) && beforeLast.length > 1)) {
+                            return old.slice(0, -2);
+                        } else {
+                            return old.slice(0, -2) + old[old.length - 1];
+                        }
+                    })
                 }
         }
     }

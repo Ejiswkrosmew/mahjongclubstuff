@@ -4,15 +4,10 @@ import Back from "./assets/back.png";
 function Buttons(props) {
     const [ callMenu, setCallMenu ] = useState(0);
 
-    function indexToStr(index) {
-        let suits = ["m", "p", "s", "z"];
-        return index % 10 + suits[Math.floor(index / 10)];
-    }
-
     function handleCall(index) {
-        let calls = ["c", "p", "k", "t", "r", "R", "K"];
-        let call = calls[index];
-        let token = props.handStr.slice(-2);
+        const calls = ["c", "p", "k", "t", "r", "R", "K"];
+        const call = calls[index];
+        const token = props.handStr.slice(-2);
         let tokenNum = parseInt(token[1]);
         
         // If there is a special menu for the call, do it
@@ -39,6 +34,17 @@ function Buttons(props) {
         props.setCallMenu(0);
     }
 
+    function addTile(index) {
+        const suit = ["m", "p", "s", "z"][Math.floor(index / 10)];
+        const val = index % 10;
+        const token = props.handStr.slice(-2);
+        if (!isNaN(parseInt(token[0])) && token[1] == suit) {
+            props.setHandStr(props.handStr.slice(0, -1) + val + suit);
+        } else {
+            props.setHandStr(old => old + val + suit);
+        }
+    }
+
     // Tile buttons
     let tileBackgrounds = [];
     for (let i = 0; i < 6; i++) {
@@ -52,7 +58,7 @@ function Buttons(props) {
     tileBackgrounds = tileBackgrounds.map((str, i) => <div 
         className="tileButtons"
         key={i}
-        onClick={() => props.setHandStr(old => old + indexToStr(i))}
+        onClick={() => addTile(i)}
         style={{
             background: "url(assets/tiles.png) " + str + " / 700%"
         }}
