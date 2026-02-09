@@ -216,7 +216,8 @@ main.update = function () {
 	}
 
 	this.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth * 4 / 3 || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
-	this.canvas.style.width = this.canvas.width * this.settings.canvasMult + "px";
+	document.documentElement.style.setProperty('--canvas-width', this.canvas.width * this.settings.canvasMult + "px");
+	// this.canvas.style.width = this.canvas.width * this.settings.canvasMult + "px";
 
 	this.canvas.height = 840 + this.labels * this.settings.labelOffset;
 	document.documentElement.style.setProperty('--canvas-height', this.canvas.height * this.settings.canvasMult + "px");
