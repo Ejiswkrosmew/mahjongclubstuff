@@ -201,9 +201,13 @@ main.update = function () {
 					kita.x = currentX;
 
 					let tileText = this.tileText[tileIndex];
-					tileText.x = currentX + this.settings.tileWidth / 2;
-					tileText.color = "black";
-					tileText.text = this.consts.honors[4];
+					if (!this.labels) {
+						tileText.text = ""
+					} else {
+						tileText.x = currentX + this.settings.tileWidth / 2;
+						tileText.color = "black";
+						tileText.text = this.consts.honors[4];
+					}
 
 					tileIndex++;
 					currentX += this.settings.tileWidth;
@@ -215,7 +219,7 @@ main.update = function () {
 		}
 	}
 
-	this.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth * 4 / 3 || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
+	this.canvas.width = Math.max(this.tileSprites[tileIndex - 1]?.x + this.settings.tileWidth + (this.tileSprites[tileIndex - 1]?.degrees != 0) * this.settings.tileWidth * 1 / 6 || 0, this.buttonSprites[buttonIndex - 1]?.x + this.settings.buttonWidth || 0);
 	document.documentElement.style.setProperty('--canvas-width', this.canvas.width * this.settings.canvasMult + "px");
 	// this.canvas.style.width = this.canvas.width * this.settings.canvasMult + "px";
 
