@@ -13,6 +13,7 @@ function HandInput(props) {
 
             // If we need to swap character to alphabet, do it
             if (swapAlpha) {
+                swapAlpha = false;
                 if (!isNum) {
                     newHand += value[i];
                     continue;
