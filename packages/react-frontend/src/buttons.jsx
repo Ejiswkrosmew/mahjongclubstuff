@@ -8,7 +8,7 @@ function Buttons(props) {
         const calls = ["c", "p", "k", "t", "r", "R", "K"];
         const call = calls[index];
         const token = props.handStr.slice(-2);
-        let tokenNum = parseInt(token[1]);
+        let valCode = token.charCodeAt(1) - "a".charCodeAt();
         
         // If there is a special menu for the call, do it
         switch(call) {
@@ -23,11 +23,12 @@ function Buttons(props) {
         }
 
         // Default to adding the call/adding 1 to the call on future presses
-        if (call == token[0] && !isNaN(tokenNum)) {
-            tokenNum = (tokenNum + 1) % 10;
-            props.setHandStr(props.handStr.slice(0, -2) + call + tokenNum);
+        if (call == token[0] && valCode >= 0 && valCode <= 25) {
+            valCode = (valCode + 1) % 26;
+            console.log(valCode);
+            props.setHandStr(props.handStr.slice(0, -2) + call + String.fromCharCode(valCode + "a".charCodeAt()));
         } else {
-            props.setHandStr(old => old + call + "0");
+            props.setHandStr(old => old + call + "a");
         }
 
         // Reset call menu

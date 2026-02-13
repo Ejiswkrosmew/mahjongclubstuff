@@ -4,33 +4,10 @@ function RightMenu(props) {
     function handleCall(index, val) {
         let calls = ["c", "p", "k", "t", "r", "R", "K"];
         let call = calls[index];
-        let token = props.handStr.slice(-2);
-        let tokenNum = parseInt(token[1]);
+        let valChar = String.fromCharCode("a".charCodeAt() + val);
         
-        // If we know exactly want to add, add it and reset call menu
-        if (val != undefined) {
-            props.setHandStr(old => old + call + val);
-            props.setCallMenu(0);
-            return;
-        }
-        
-        // If there is a special menu for the call, do it
-        switch(call) {
-            case "p":
-                props.setCallMenu(1);
-                return;
-            case "k":
-                props.setCallMenu(2);
-                return;
-        }
-
-        // Default to adding the call/adding 1 to the call on future presses
-        if (call == token[0] && !isNaN(tokenNum)) {
-            tokenNum = (tokenNum + 1) % 10;
-            props.setHandStr(props.handStr.slice(0, -2) + call + tokenNum);
-        } else {
-            props.setHandStr(old => old + call + "0");
-        }
+        props.setHandStr(old => old + call + valChar);
+        props.setCallMenu(0);
     }
 
     // Pon Shape Buttons

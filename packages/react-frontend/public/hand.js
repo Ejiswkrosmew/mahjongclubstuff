@@ -118,7 +118,6 @@ main.update = function () {
 			turnTile--;
 			doubleTile--;
 
-
 			// Update variables
 			tileIndex++;
 			currentX += this.settings.tileWidth;
@@ -126,7 +125,7 @@ main.update = function () {
 			// Button
 
 			// Number used to determine tile formation
-			let formation = parseInt(token[1]);
+			let formation = token.charCodeAt(1) - "a".charCodeAt();
 
 			// Add a button sprite if one doesn't exist
 			if (this.buttonSprites.length <= buttonIndex) {
@@ -138,8 +137,8 @@ main.update = function () {
 			button.alpha = 1;
 			button.y = this.settings.buttonY + this.labels * this.settings.labelOffset;
 
-			// Add meld padding
-			currentX += this.settings.meldPadding;
+			// Add meld padding if not first
+			if (i != 0) currentX += this.settings.meldPadding;
 
 			// Calculate meld width
 			let width = this.settings.tileWidth * 10 / 3;
@@ -149,7 +148,7 @@ main.update = function () {
 					turnTile = (formation % 3) + 1;
 					break;
 				case "k":
-					if (formation == 7 || formation == 9) {
+					if (formation == 7 || formation >= 9) {
 						width = this.settings.tileWidth * 4;
 						closedTile = formation == 7 ? 9 : 14;
 						break;

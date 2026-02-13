@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import HandInput from "./handInput.jsx";
 import Buttons from "./buttons.jsx";
 import RightMenu from './rightMenu.jsx';
-import { strToHand } from "./handFuncs.jsx";
+import { strToHand, handToStr } from "./handFuncs.jsx";
 import useScript from "./hooks/useScript.jsx";
 import './style.css';
 
@@ -22,17 +22,12 @@ function App() {
                 // Remove tiles/calls with backspace (All with shift key)
                 if (event.shiftKey) {
                     setHandStr("");
-                } else {
+                } else {;
+                    // Inefficient but hey it will always work
                     setHandStr(old => {
-                        const last = old.slice(-2);
-                        const beforeLast = old.slice(-4, -2);
-                        const beforeLast2 = old.slice(-5, -4);
-                        if (isNaN(parseInt(last[0])) || (isNaN(parseInt(beforeLast[0]))  && isNaN(parseInt(beforeLast2))) || (isNaN(parseInt(beforeLast[1])) && beforeLast.length > 1)) {
-                            return old.slice(0, -2);
-                        } else {
-                            return old.slice(0, -2) + old[old.length - 1];
-                        }
-                    })
+                        let hand = strToHand(old);
+                        return handToStr(hand.slice(0, -1));
+                    });
                 }
         }
     }
